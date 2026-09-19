@@ -7,37 +7,44 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#fdf4ff',
-          100: '#fae8ff',
-          200: '#f5d0fe',
-          300: '#f0abfc',
-          400: '#e879f9',
-          500: '#d946ef',
-          600: '#c026d3',
-          700: '#a21caf',
-          800: '#86198f',
-          900: '#701a75',
-        },
-        electric: {
-          blue: '#2563eb',
-          cyan: '#06b6d4',
-          yellow: '#fbbf24',
-          coral: '#ff5c5c',
-          purple: '#7c3aed',
-          pink: '#f43f5e'
+        primary: "#0A0A0A",
+        secondary: "#FF1F8F",
+        tertiary: "#6B6B6B",
+        neutral: "#FFFFFF",
+        surface: "#F7F7F7",
+        "on-surface": "#0A0A0A",
+        error: "#D92D20",
+        border: "#E5E7EB",
+        muted: "#9CA3AF",
+        bun: {
+          dark: "#0A0A0A",
+          pink: "#FF1F8F",
+          pinkHover: "#E0177D",
+          gray: "#6B6B6B",
+          surface: "#F7F7F7",
+          border: "#E5E7EB",
+          muted: "#9CA3AF",
         }
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['Cal Sans', 'Plus Jakarta Sans', 'Inter', 'sans-serif'],
+        display: ['Archivo', 'ui-sans-serif', 'sans-serif'],
+        sans: ['ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', "'Segoe UI'", 'Roboto', 'sans-serif'],
+        mono: ["'Martian Mono'", 'monospace'],
       },
-      boxShadow: {
-        'sticker': '0 8px 0 0 rgba(0, 0, 0, 0.08), 0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-        'sticker-hover': '0 12px 0 0 rgba(0, 0, 0, 0.09), 0 25px 30px -5px rgba(0, 0, 0, 0.15)',
-        'pop': '4px 4px 0px 0px rgba(15, 23, 42, 0.9)',
-        'pop-hover': '6px 6px 0px 0px rgba(15, 23, 42, 0.9)',
-        'pop-active': '2px 2px 0px 0px rgba(15, 23, 42, 0.9)',
+      borderRadius: {
+        none: '0px',
+        sm: '4px',
+        md: '8px',
+        lg: '12px',
+        xl: '16px',
+        full: '9999px',
+      },
+      spacing: {
+        xs: '8px',
+        sm: '16px',
+        md: '24px',
+        lg: '40px',
+        xl: '112px',
       }
     },
   },

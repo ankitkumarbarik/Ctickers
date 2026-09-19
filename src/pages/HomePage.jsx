@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -9,8 +9,9 @@ import {
   Star,
   Layers,
   Palette,
-  Eye,
-  Flame,
+  Terminal,
+  Copy,
+  Check,
   Truck
 } from 'lucide-react';
 import StickerCard from '../components/StickerCard';
@@ -19,457 +20,481 @@ import { STICKER_PRODUCTS, PINTEREST_INSPIRATION_PINS } from '../data/stickersDa
 export default function HomePage() {
   const featuredStickers = STICKER_PRODUCTS.slice(0, 4);
   const inspirationTeasers = PINTEREST_INSPIRATION_PINS.slice(0, 4);
+  const [copiedCmd, setCopiedCmd] = useState(false);
+  const [activeTab, setActiveTab] = useState('cli');
+
+  const cliCommand = 'npx ctickers create --shape die-cut --finish holo';
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(cliCommand);
+    setCopiedCmd(true);
+    setTimeout(() => setCopiedCmd(false), 2000);
+  };
 
   return (
-    <div className="space-y-14 sm:space-y-24 overflow-x-clip">
+    <div className="space-y-16 sm:space-y-24 py-8 sm:py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* HERO SECTION */}
-      <section className="relative pt-4 sm:pt-12 pb-8 sm:pb-16 overflow-hidden">
-        {/* Background decorative gradient blobs */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[400px] sm:h-[500px] pointer-events-none -z-10 overflow-hidden">
-          <div className="absolute -top-20 left-10 w-72 sm:w-96 h-72 sm:h-96 bg-rose-200/40 rounded-full blur-3xl" />
-          <div className="absolute top-10 right-10 w-72 sm:w-96 h-72 sm:h-96 bg-indigo-200/35 rounded-full blur-3xl" />
-          <div className="absolute top-40 left-1/3 w-60 sm:w-80 h-60 sm:h-80 bg-amber-200/30 rounded-full blur-3xl" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* Left Hero Content */}
-            <div className="lg:col-span-7 space-y-5 sm:space-y-6 text-center lg:text-left">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-white/95 border border-slate-200/90 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full text-[11px] sm:text-xs font-bold text-slate-800 shadow-sm">
-                <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-ping" />
-                <Sparkles className="w-3.5 h-3.5 text-rose-500 shrink-0" />
-                <span>Next-Gen Custom Vinyl Stickers</span>
-              </div>
-
-              {/* Heading */}
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-slate-900 tracking-tight leading-[1.1]">
-                Turn Your Ideas <br />
-                <span className="bg-gradient-to-r from-rose-500 via-fuchsia-600 to-indigo-600 bg-clip-text text-transparent">
-                  Into Stickers
-                </span>
-              </h1>
-
-              {/* Subheading */}
-              <p className="text-base sm:text-lg md:text-xl text-slate-600 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
-                Choose a design or create a custom sticker from your own photo.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-1">
-                <Link
-                  to="/stickers"
-                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-2xl shadow-lg shadow-slate-900/15 transition-all hover:scale-[1.02] active:scale-95 text-center flex items-center justify-center gap-2 text-sm sm:text-base"
-                >
-                  <span>Explore Stickers</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <Link
-                  to="/custom-sticker"
-                  className="w-full sm:w-auto px-7 py-3.5 sm:py-4 bg-gradient-to-r from-rose-500 to-fuchsia-600 hover:from-rose-600 hover:to-fuchsia-700 text-white font-bold rounded-2xl shadow-lg shadow-rose-500/25 transition-all hover:scale-[1.02] active:scale-95 text-center flex items-center justify-center gap-2 text-sm sm:text-base"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  <span>Create Custom Sticker</span>
-                </Link>
-              </div>
-
-              {/* Social Proof Stats */}
-              <div className="pt-5 border-t border-slate-200/80 grid grid-cols-3 gap-2 sm:gap-4 max-w-lg mx-auto lg:mx-0 text-center lg:text-left">
-                <div className="p-1">
-                  <p className="text-xl sm:text-2xl font-black text-slate-900">50K+</p>
-                  <p className="text-[10px] sm:text-xs text-slate-500 font-medium">Stickers Printed</p>
-                </div>
-                <div className="p-1">
-                  <p className="text-xl sm:text-2xl font-black text-slate-900">4.9 / 5</p>
-                  <p className="text-[10px] sm:text-xs text-slate-500 font-medium">Customer Rating</p>
-                </div>
-                <div className="p-1">
-                  <p className="text-xl sm:text-2xl font-black text-slate-900">100%</p>
-                  <p className="text-[10px] sm:text-xs text-slate-500 font-medium">Waterproof Vinyl</p>
-                </div>
-              </div>
+      <section className="pt-2 sm:pt-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          
+          {/* Left Column: Editorial Content */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Top Badge */}
+            <div className="inline-flex items-center gap-2">
+              <span className="chip-bun-pink">
+                v1.0
+              </span>
+              <span className="chip-bun">
+                <Sparkles className="w-3 h-3 text-[#FF1F8F]" />
+                Laser-Cut Vinyl Engineering
+              </span>
             </div>
 
-            {/* Right Hero Sticker Collage Visual */}
-            <div className="lg:col-span-5 relative flex items-center justify-center px-4 sm:px-0">
-              <div className="relative w-full max-w-[320px] sm:max-w-md aspect-square bg-gradient-to-br from-rose-100/50 via-indigo-50/40 to-amber-50/60 rounded-3xl p-4 sm:p-6 border border-white/80 shadow-xl flex items-center justify-center">
+            {/* Display Headline */}
+            <h1 className="font-headline-display text-4xl sm:text-6xl lg:text-[68px] text-[#0A0A0A] leading-[1.08] tracking-[-1.36px]">
+              Turn Your Ideas <br />
+              <span className="text-[#FF1F8F]">Into Stickers.</span>
+            </h1>
+
+            {/* Mono Body Text */}
+            <p className="font-mono text-sm sm:text-base text-[#6B6B6B] max-w-xl leading-relaxed">
+              Ultra-durable, waterproof vinyl stickers cut with razor precision. Built for developers, designers, and creators who value speed and print fidelity.
+            </p>
+
+            {/* Terminal / Interactive Code Block */}
+            <div className="border border-[#E5E7EB] bg-[#F7F7F7] p-1 space-y-1 max-w-xl">
+              <div className="flex items-center justify-between px-2 pt-1 pb-1 text-xs">
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setActiveTab('cli')}
+                    className={`px-2.5 py-1 text-xs font-sans font-semibold rounded-none border transition-colors ${
+                      activeTab === 'cli'
+                        ? 'bg-[#0A0A0A] text-white border-[#0A0A0A]'
+                        : 'bg-white text-[#6B6B6B] border-[#E5E7EB] hover:text-[#0A0A0A]'
+                    }`}
+                  >
+                    terminal
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('spec')}
+                    className={`px-2.5 py-1 text-xs font-sans font-semibold rounded-none border transition-colors ${
+                      activeTab === 'spec'
+                        ? 'bg-[#0A0A0A] text-white border-[#0A0A0A]'
+                        : 'bg-white text-[#6B6B6B] border-[#E5E7EB] hover:text-[#0A0A0A]'
+                    }`}
+                  >
+                    specs.json
+                  </button>
+                </div>
+                <button
+                  onClick={handleCopy}
+                  className="font-mono text-[11px] text-[#6B6B6B] hover:text-[#0A0A0A] flex items-center gap-1 p-1"
+                  title="Copy command"
+                >
+                  {copiedCmd ? <Check className="w-3 h-3 text-[#FF1F8F]" /> : <Copy className="w-3 h-3" />}
+                  <span>{copiedCmd ? 'copied' : 'copy'}</span>
+                </button>
+              </div>
+
+              {activeTab === 'cli' ? (
+                <div className="code-block-bun text-xs sm:text-sm">
+                  <div className="flex items-center gap-2 text-[#9CA3AF]">
+                    <span className="text-[#FF1F8F]">$</span>
+                    <span className="text-white font-semibold">{cliCommand}</span>
+                  </div>
+                  <div className="text-[#6B6B6B] text-[11px] mt-2 font-mono space-y-0.5">
+                    <p className="text-white">✓ Tracing vector contours... <span className="text-[#FF1F8F]">done (12ms)</span></p>
+                    <p>✓ UV protective film applied (6 mil heavy vinyl)</p>
+                    <p className="text-[#9CA3AF]">✓ 50x custom stickers ready for dispatch in 24h</p>
+                  </div>
+                </div>
+              ) : (
+                <div className="code-block-bun text-xs font-mono text-[#9CA3AF] space-y-0.5">
+                  <p><span className="text-[#FF1F8F]">"material"</span>: <span className="text-white">"weatherproof-vinyl"</span>,</p>
+                  <p><span className="text-[#FF1F8F]">"laminate"</span>: <span className="text-white">"UV-shield-matte-holo"</span>,</p>
+                  <p><span className="text-[#FF1F8F]">"tolerance"</span>: <span className="text-white">"±0.2mm optical cut"</span>,</p>
+                  <p><span className="text-[#FF1F8F]">"dishwasher_safe"</span>: <span className="text-[#FF1F8F]">true</span></p>
+                </div>
+              )}
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+              <Link
+                to="/stickers"
+                className="btn-primary text-sm px-5 py-2.5"
+              >
+                <span>Explore Stickers</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+
+              <Link
+                to="/custom-sticker"
+                className="btn-secondary text-sm px-5 py-2.5"
+              >
+                <span>Custom Sticker Studio</span>
+              </Link>
+            </div>
+
+            {/* Fast Stats Bar */}
+            <div className="pt-6 border-t border-[#E5E7EB] grid grid-cols-2 sm:grid-cols-4 gap-4 text-left">
+              <div>
+                <p className="font-mono text-xl font-bold text-[#0A0A0A]">50,000+</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B] mt-0.5">Stickers Cut</p>
+              </div>
+              <div>
+                <p className="font-mono text-xl font-bold text-[#0A0A0A]">4.9 / 5.0</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B] mt-0.5">Rating</p>
+              </div>
+              <div>
+                <p className="font-mono text-xl font-bold text-[#0A0A0A]">100%</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B] mt-0.5">Waterproof Vinyl</p>
+              </div>
+              <div>
+                <p className="font-mono text-xl font-bold text-[#FF1F8F]">24h</p>
+                <p className="font-mono text-[11px] text-[#6B6B6B] mt-0.5">Fast Turnaround</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Product Proof Grid */}
+          <div className="lg:col-span-5">
+            <div className="border border-[#E5E7EB] bg-[#F7F7F7] p-4 sm:p-6 space-y-4">
+              <div className="flex items-center justify-between pb-3 border-b border-[#E5E7EB]">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 bg-[#FF1F8F]"></span>
+                  <span className="font-sans font-semibold text-xs text-[#0A0A0A] uppercase tracking-wider">
+                    Featured Specimen
+                  </span>
+                </div>
+                <span className="chip-bun text-[10px] bg-white">
+                  Die-Cut • Holographic
+                </span>
+              </div>
+
+              {/* Main Preview Box */}
+              <div className="relative aspect-square w-full bg-white border border-[#E5E7EB] p-6 flex items-center justify-center overflow-hidden group">
+                <img
+                  src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80"
+                  alt="Cyberpunk Ramen Bowl"
+                  className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                />
                 
-                {/* Floating sticker 1: Astro Cat */}
-                <div className="absolute -top-3 -left-2 sm:-top-4 sm:-left-6 w-28 sm:w-44 bg-white p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-lg border border-slate-100 transform -rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-300">
-                  <img
-                    src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80"
-                    alt="Astro Cat Sticker"
-                    className="w-full h-24 sm:h-32 object-cover rounded-lg sm:rounded-xl"
-                  />
-                  <div className="mt-1.5 sm:mt-2 flex items-center justify-between">
-                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-800">Astro Cat</span>
-                    <span className="text-[9px] sm:text-[10px] bg-rose-100 text-rose-700 font-extrabold px-1.5 py-0.5 rounded">Holo</span>
+                {/* Floating Specs overlay */}
+                <div className="absolute bottom-3 left-3 right-3 bg-[#0A0A0A] text-white p-3 border border-[#262626] flex items-center justify-between text-xs font-mono">
+                  <div>
+                    <span className="text-[#FF1F8F] font-bold">Cyber Ramen</span>
+                    <span className="text-[#9CA3AF] block text-[10px]">3" x 3" • Rainbow Foil</span>
                   </div>
+                  <span className="font-bold text-sm text-white">$4.25</span>
                 </div>
+              </div>
 
-                {/* Floating sticker 2: Synthwave Sunset */}
-                <div className="absolute -bottom-3 -right-2 sm:-bottom-6 sm:-right-4 w-28 sm:w-44 bg-white p-2 sm:p-2.5 rounded-xl sm:rounded-2xl shadow-lg border border-slate-100 transform rotate-8 hover:rotate-0 hover:scale-105 transition-all duration-300">
-                  <img
-                    src="https://images.unsplash.com/photo-1508739773434-c26b3d09e071?auto=format&fit=crop&w=400&q=80"
-                    alt="Synthwave Sunset Sticker"
-                    className="w-full h-24 sm:h-32 object-cover rounded-lg sm:rounded-xl"
-                  />
-                  <div className="mt-1.5 sm:mt-2 flex items-center justify-between">
-                    <span className="text-[10px] sm:text-[11px] font-bold text-slate-800">Synth Dusk</span>
-                    <span className="text-[9px] sm:text-[10px] bg-indigo-100 text-indigo-700 font-extrabold px-1.5 py-0.5 rounded">Matte</span>
-                  </div>
+              {/* Micro specs comparison row */}
+              <div className="grid grid-cols-3 gap-2 text-center text-xs font-mono">
+                <div className="bg-white border border-[#E5E7EB] p-2">
+                  <span className="text-[#9CA3AF] block text-[10px]">UV RATING</span>
+                  <strong className="text-[#0A0A0A] text-[11px]">5+ Years</strong>
                 </div>
-
-                {/* Floating sticker 3: Ramen Bowl in Center */}
-                <div className="relative z-10 w-40 sm:w-56 bg-white p-2.5 sm:p-3 rounded-2xl shadow-xl border-2 border-white transform hover:scale-105 transition-all duration-300">
-                  <div className="relative overflow-hidden rounded-xl bg-slate-900">
-                    <img
-                      src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=500&q=80"
-                      alt="Cyberpunk Ramen Bowl"
-                      className="w-full h-32 sm:h-44 object-cover"
-                    />
-                    <div className="absolute bottom-1.5 left-1.5 bg-slate-900/85 backdrop-blur-md px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] text-white font-bold flex items-center gap-1">
-                      <Flame className="w-3 h-3 text-amber-400" />
-                      Die-cut
-                    </div>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <span className="text-xs font-black text-slate-900">Cyber Ramen</span>
-                    <span className="text-xs font-bold text-rose-600">$4.25</span>
-                  </div>
+                <div className="bg-white border border-[#E5E7EB] p-2">
+                  <span className="text-[#9CA3AF] block text-[10px]">ADHESIVE</span>
+                  <strong className="text-[#0A0A0A] text-[11px]">Permanent</strong>
                 </div>
-
-                {/* Floating badge peel */}
-                <div className="absolute top-1/2 -left-8 bg-slate-900 text-white text-[11px] font-bold px-3 py-1.5 rounded-full shadow-lg border border-slate-700 -rotate-12 hidden sm:flex items-center gap-1.5">
-                  <Sparkles className="w-3 h-3 text-amber-400" />
-                  Peel & Stick Anywhere
+                <div className="bg-white border border-[#E5E7EB] p-2">
+                  <span className="text-[#9CA3AF] block text-[10px]">FINISH</span>
+                  <strong className="text-[#FF1F8F] text-[11px]">Hologram</strong>
                 </div>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
-      {/* THREE EASY STEPS SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-12">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
-            Simple Process
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3">
-            Custom Stickers in 3 Quick Steps
-          </h2>
-          <p className="text-sm text-slate-500 mt-2">
-            From your camera roll or design software straight to durable waterproof vinyl.
+      {/* THREE PRECISION STEPS */}
+      <section className="space-y-8 pt-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 border-b border-[#E5E7EB]">
+          <div>
+            <div className="inline-block chip-bun mb-2">
+              Simple Workflow
+            </div>
+            <h2 className="font-headline-lg text-2xl sm:text-4xl text-[#0A0A0A]">
+              Production in 3 Quick Steps
+            </h2>
+          </div>
+          <p className="font-mono text-xs sm:text-sm text-[#6B6B6B] max-w-md">
+            From image upload to durable waterproof vinyl on your laptop or water bottle.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-center group">
-            <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform">
-              <Palette className="w-7 h-7" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="card-bun space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="chip-bun-pink text-[11px]">STEP 01</span>
+              <Palette className="w-5 h-5 text-[#0A0A0A]" />
             </div>
-            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Step 01</span>
-            <h3 className="text-xl font-bold text-slate-900 mt-1 mb-2">Upload Any Design</h3>
-            <p className="text-sm text-slate-500 leading-relaxed">
-              Upload your photos, logos, doodles, or pet portraits. Any PNG, JPG, or SVG works.
+            <h3 className="font-sans font-bold text-lg text-[#0A0A0A]">Upload Any Artwork</h3>
+            <p className="font-mono text-xs text-[#6B6B6B] leading-relaxed">
+              Upload PNG, JPG, SVG, or PSD files. Our engine auto-detects transparent borders and traces cutlines.
             </p>
           </div>
 
-          <div className="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-center group">
-            <div className="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform">
-              <Layers className="w-7 h-7" />
+          <div className="card-bun space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="chip-bun-pink text-[11px]">STEP 02</span>
+              <Layers className="w-5 h-5 text-[#0A0A0A]" />
             </div>
-            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Step 02</span>
-            <h3 className="text-xl font-bold text-slate-900 mt-1 mb-2">Pick Shape & Finish</h3>
-            <p className="text-sm text-slate-500 leading-relaxed">
-              Choose Die-Cut, Circle, or Square, plus Glossy, Matte, or Rainbow Holographic sheen.
+            <h3 className="font-sans font-bold text-lg text-[#0A0A0A]">Pick Shape & Finish</h3>
+            <p className="font-mono text-xs text-[#6B6B6B] leading-relaxed">
+              Select Die-Cut, Circle, Square, or Kiss-Cut. Choose Glossy, Soft Matte, or Rainbow Holographic foil.
             </p>
           </div>
 
-          <div className="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all text-center group">
-            <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-5 group-hover:scale-110 transition-transform">
-              <Truck className="w-7 h-7" />
+          <div className="card-bun space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="chip-bun-pink text-[11px]">STEP 03</span>
+              <Truck className="w-5 h-5 text-[#0A0A0A]" />
             </div>
-            <span className="text-xs font-extrabold text-slate-400 uppercase tracking-widest">Step 03</span>
-            <h3 className="text-xl font-bold text-slate-900 mt-1 mb-2">Printed & Delivered</h3>
-            <p className="text-sm text-slate-500 leading-relaxed">
-              We cut them with razor precision on durable vinyl and ship them fast to your doorstep.
+            <h3 className="font-sans font-bold text-lg text-[#0A0A0A]">Printed & Shipped</h3>
+            <p className="font-mono text-xs text-[#6B6B6B] leading-relaxed">
+              Printed on heavy 6 mil vinyl, laminated against UV rays, and dispatched directly within 24–48 hours.
             </p>
           </div>
         </div>
       </section>
 
-      {/* FEATURED STICKERS SHOWCASE */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-10">
+      {/* FEATURED STICKERS CATALOG SHOWCASE */}
+      <section className="space-y-6 pt-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-[#E5E7EB]">
           <div>
-            <div className="inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-full mb-2">
-              <Flame className="w-3.5 h-3.5" />
-              <span>Trending Now</span>
+            <div className="inline-block chip-bun-pink text-[11px] mb-2">
+              Trending Drops
             </div>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
+            <h2 className="font-headline-lg text-2xl sm:text-4xl text-[#0A0A0A]">
               Popular Sticker Picks
             </h2>
           </div>
           <Link
             to="/stickers"
-            className="inline-flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-rose-600 transition-colors group"
+            className="btn-secondary text-xs sm:text-sm"
           >
             <span>View All Stickers ({STICKER_PRODUCTS.length})</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {featuredStickers.map((sticker) => (
             <StickerCard key={sticker.id} sticker={sticker} />
           ))}
         </div>
       </section>
 
-      {/* PINTEREST INSPIRATION TEASER SECTION */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-br from-rose-500 via-rose-600 to-indigo-700 rounded-3xl p-6 sm:p-10 md:p-14 text-white relative overflow-hidden shadow-xl">
-          {/* Background shapes */}
-          <div className="absolute top-0 right-0 w-80 sm:w-96 h-80 sm:h-96 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-72 sm:w-80 h-72 sm:h-80 bg-fuchsia-400/20 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-center">
-            <div className="lg:col-span-6 space-y-4 sm:space-y-5">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-white">
-                <Sparkles className="w-3.5 h-3.5" />
-                Pinterest Ready Demo
-              </span>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight">
-                Pinterest Inspiration <br />
-                Turned Into Stickers
-              </h2>
-              <p className="text-rose-100 text-xs sm:text-base leading-relaxed max-w-lg">
-                Explore hundreds of curated aesthetic designs, lofi art, vintage botanicals, and cute memes.
-                Spot what you love and print it on waterproof vinyl with a single click.
-              </p>
-              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <Link
-                  to="/inspiration"
-                  className="px-6 py-3.5 bg-white text-slate-900 font-bold rounded-xl shadow-lg hover:bg-slate-100 transition-all flex items-center justify-center gap-2 text-sm text-center"
-                >
-                  <span>Explore Pinterest Gallery</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/custom-sticker"
-                  className="px-6 py-3.5 bg-rose-700/50 hover:bg-rose-700/80 border border-white/30 text-white font-bold rounded-xl transition-all text-sm text-center flex items-center justify-center"
-                >
-                  Upload Your Own
-                </Link>
-              </div>
+      {/* PINTEREST INSPIRATION TEASER */}
+      <section className="bg-[#0A0A0A] text-white p-6 sm:p-10 lg:p-12 border border-[#262626]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-6 space-y-4">
+            <span className="chip-bun-pink text-[11px]">
+              PINTEREST INTEGRATION
+            </span>
+            <h2 className="font-headline-lg text-2xl sm:text-4xl text-white">
+              Pinterest Inspiration <br />
+              <span className="text-[#FF1F8F]">Turned Into Stickers.</span>
+            </h2>
+            <p className="font-mono text-xs sm:text-sm text-[#9CA3AF] leading-relaxed">
+              Discover aesthetic moodboards, lo-fi anime art, vintage botanicals, and dev memes. Pick any inspired design and send it straight to vinyl printing.
+            </p>
+            <div className="pt-2 flex flex-wrap gap-3">
+              <Link
+                to="/inspiration"
+                className="btn-primary text-xs sm:text-sm"
+              >
+                <span>Explore Pinterest Gallery</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link
+                to="/custom-sticker"
+                className="btn-outline text-xs sm:text-sm bg-[#0A0A0A] text-white border-[#262626] hover:bg-[#1A1A1A] hover:border-white"
+              >
+                Upload Your Own Art
+              </Link>
             </div>
+          </div>
 
-            {/* Micro grid of teaser pins */}
-            <div className="lg:col-span-6 grid grid-cols-2 gap-3 sm:gap-4">
-              {inspirationTeasers.map((pin, i) => (
-                <div
-                  key={pin.id}
-                  className={`bg-white/10 backdrop-blur-md p-2.5 sm:p-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300 ${
-                    i % 2 === 1 ? 'sm:translate-y-4' : ''
-                  }`}
-                >
+          <div className="lg:col-span-6 grid grid-cols-2 gap-3 sm:gap-4">
+            {inspirationTeasers.map((pin) => (
+              <div
+                key={pin.id}
+                className="bg-[#141414] border border-[#262626] p-2.5 space-y-2"
+              >
+                <div className="aspect-video w-full overflow-hidden bg-black">
                   <img
                     src={pin.image}
                     alt={pin.title}
-                    className="w-full h-24 sm:h-36 object-cover rounded-xl"
+                    className="w-full h-full object-cover"
                   />
-                  <div className="mt-2">
-                    <p className="text-xs font-bold text-white truncate">{pin.title}</p>
-                    <p className="text-[10px] text-rose-200 mt-0.5">{pin.saves} Saves</p>
-                  </div>
                 </div>
-              ))}
-            </div>
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="text-white truncate max-w-[110px] sm:max-w-none">{pin.title}</span>
+                  <span className="text-[#FF1F8F] font-bold shrink-0">{pin.saves} saves</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* QUALITY PROMISE & MATERIALS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 md:p-12 shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 items-center">
-            <div className="space-y-5 sm:space-y-6">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
-                Premium Specs
-              </span>
-              <h2 className="text-2xl sm:text-4xl font-black text-slate-900 leading-tight">
-                Built To Survive The Dishwasher, Sun & Daily Adventures
-              </h2>
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed">
-                We use commercial grade thick vinyl with an aggressive permanent adhesive and an extra UV-protective laminate coating. Stick them on water bottles, laptops, cars, or phone cases without fear of peeling or fading.
+      {/* TECHNICAL SPECIFICATIONS & DURABILITY */}
+      <section className="space-y-6 pt-6">
+        <div className="pb-4 border-b border-[#E5E7EB]">
+          <span className="chip-bun mb-2">Engineering Standards</span>
+          <h2 className="font-headline-lg text-2xl sm:text-4xl text-[#0A0A0A]">
+            Materials Built For Real Life
+          </h2>
+          <p className="font-mono text-xs sm:text-sm text-[#6B6B6B] mt-1">
+            Engineered to endure the dishwasher, UV exposure, rain, and repeated handling.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+          <div className="card-bun space-y-4">
+            <h3 className="font-sans font-bold text-base text-[#0A0A0A]">Technical Specifications</h3>
+            
+            <div className="space-y-2.5 font-mono text-xs divide-y divide-[#E5E7EB]">
+              <div className="pt-2 flex justify-between">
+                <span className="text-[#6B6B6B]">Base Vinyl Thickness</span>
+                <strong className="text-[#0A0A0A]">6.0 mil Commercial PVC</strong>
+              </div>
+              <div className="pt-2 flex justify-between">
+                <span className="text-[#6B6B6B]">Outdoor Durability</span>
+                <strong className="text-[#0A0A0A]">5+ Years UV Fade Resistant</strong>
+              </div>
+              <div className="pt-2 flex justify-between">
+                <span className="text-[#6B6B6B]">Dishwasher Rating</span>
+                <strong className="text-[#0A0A0A]">Tested 100+ cycles</strong>
+              </div>
+              <div className="pt-2 flex justify-between">
+                <span className="text-[#6B6B6B]">Adhesive Formulation</span>
+                <strong className="text-[#0A0A0A]">Aggressive acrylic (residue-free)</strong>
+              </div>
+              <div className="pt-2 flex justify-between">
+                <span className="text-[#6B6B6B]">Optical Cut Accuracy</span>
+                <strong className="text-[#FF1F8F]">± 0.2 mm precision registration</strong>
+              </div>
+            </div>
+          </div>
+
+          <div className="card-bun space-y-4 flex flex-col justify-between">
+            <div>
+              <h3 className="font-sans font-bold text-base text-[#0A0A0A]">Finish Formulations</h3>
+              <p className="font-mono text-xs text-[#6B6B6B] mt-1 mb-4">
+                Choose the optical finish that complements your artwork.
               </p>
 
-              <div className="space-y-2.5 sm:space-y-3 pt-1 sm:pt-2">
-                <div className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-semibold text-slate-800">
-                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 shrink-0" />
-                  <span>Weatherproof & UV fade resistant for 5+ years outdoors</span>
+              <div className="space-y-3 font-mono text-xs">
+                <div className="p-3 bg-[#F7F7F7] border border-[#E5E7EB]">
+                  <span className="font-bold text-[#0A0A0A] block">1. High-Gloss Lamination</span>
+                  <span className="text-[#6B6B6B] text-[11px]">Maximum contrast, vivid color pop, reflective protective topcoat.</span>
                 </div>
-                <div className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-semibold text-slate-800">
-                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 shrink-0" />
-                  <span>100% Dishwasher safe adhesive (tested over 100 cycles)</span>
+                <div className="p-3 bg-[#F7F7F7] border border-[#E5E7EB]">
+                  <span className="font-bold text-[#0A0A0A] block">2. Soft-Touch Matte</span>
+                  <span className="text-[#6B6B6B] text-[11px]">Silky non-glare finish with zero reflection under harsh lights.</span>
                 </div>
-                <div className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-semibold text-slate-800">
-                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 shrink-0" />
-                  <span>Residue-free removal whenever you want to re-stick</span>
-                </div>
-                <div className="flex items-center gap-2.5 sm:gap-3 text-xs sm:text-sm font-semibold text-slate-800">
-                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-500 shrink-0" />
-                  <span>Choose between Glossy, Soft-Touch Matte, and Rainbow Holographic</span>
+                <div className="p-3 bg-[#F7F7F7] border border-[#E5E7EB]">
+                  <span className="font-bold text-[#FF1F8F] block">3. Rainbow Holographic</span>
+                  <span className="text-[#6B6B6B] text-[11px]">Iridescent metallic sheen reflecting full spectrum rainbow light.</span>
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 sm:gap-4">
-              <div className="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center mb-2.5 sm:mb-3">
-                  <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <h4 className="font-bold text-slate-900 text-sm">Holographic Sheen</h4>
-                <p className="text-xs text-slate-500 mt-1">Light-catching iridescent shimmer foil</p>
-              </div>
-
-              <div className="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-2.5 sm:mb-3">
-                  <Layers className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <h4 className="font-bold text-slate-900 text-sm">Die-Cut Edges</h4>
-                <p className="text-xs text-slate-500 mt-1">Exact contour lines hugging your art</p>
-              </div>
-
-              <div className="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-2.5 sm:mb-3">
-                  <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <h4 className="font-bold text-slate-900 text-sm">Scratch Resistant</h4>
-                <p className="text-xs text-slate-500 mt-1">Heavy-duty thick 6 mil vinyl film</p>
-              </div>
-
-              <div className="bg-slate-50 p-4 sm:p-6 rounded-2xl border border-slate-100 flex flex-col items-center text-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-2.5 sm:mb-3">
-                  <Zap className="w-5 h-5 sm:w-6 sm:h-6" />
-                </div>
-                <h4 className="font-bold text-slate-900 text-sm">Fast Turnaround</h4>
-                <p className="text-xs text-slate-500 mt-1">Quick preview and rapid dispatch</p>
-              </div>
+            <div className="pt-2">
+              <Link to="/custom-sticker" className="btn-secondary w-full text-xs">
+                Test With Your Own Design
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
-            Real Reviews
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mt-3">
-            Loved By Artists & Sticker Collectors
+      {/* COMMUNITY REVIEWS */}
+      <section className="space-y-6 pt-6">
+        <div className="pb-4 border-b border-[#E5E7EB]">
+          <span className="chip-bun mb-2">Verified Feedback</span>
+          <h2 className="font-headline-lg text-2xl sm:text-4xl text-[#0A0A0A]">
+            Loved By Developers & Creators
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-            <div className="flex items-center gap-1 text-amber-400">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div className="card-bun space-y-3">
+            <div className="flex items-center gap-1 text-[#FF1F8F]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-current" />
+                <Star key={i} className="w-3.5 h-3.5 fill-current" />
               ))}
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
-              "The holographic sticker quality is out of this world! I put them on my skateboard deck and water bottle, and after 4 months they look brand new."
+            <p className="font-mono text-xs text-[#0A0A0A] leading-relaxed">
+              "The holographic print quality is unreal. I stick them on my laptop chassis and hydro flask — four months in, zero edge peeling."
             </p>
-            <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
-                alt="Maya L."
-                className="w-8 h-8 rounded-full object-cover"
-              />
-              <div>
-                <p className="text-xs font-bold text-slate-900">Maya Lin</p>
-                <p className="text-[10px] text-slate-400">Illustrator & Comic Artist</p>
-              </div>
+            <div className="pt-2 border-t border-[#E5E7EB] text-xs font-mono">
+              <p className="font-bold text-[#0A0A0A]">Maya Lin</p>
+              <p className="text-[11px] text-[#6B6B6B]">Comic Illustrator</p>
             </div>
           </div>
 
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-            <div className="flex items-center gap-1 text-amber-400">
+          <div className="card-bun space-y-3">
+            <div className="flex items-center gap-1 text-[#FF1F8F]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-current" />
+                <Star key={i} className="w-3.5 h-3.5 fill-current" />
               ))}
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
-              "Uploading my logo and choosing the die-cut finish took 30 seconds. Best custom sticker ordering flow I've ever experienced."
+            <p className="font-mono text-xs text-[#0A0A0A] leading-relaxed">
+              "Uploading SVG logos and getting exact contour kiss-cuts took seconds. The sharpest developer swag we've ever distributed at hackathons."
             </p>
-            <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
-              <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
-                alt="Liam K."
-                className="w-8 h-8 rounded-full object-cover"
-              />
-              <div>
-                <p className="text-xs font-bold text-slate-900">Liam Keller</p>
-                <p className="text-[10px] text-slate-400">Coffee Roaster Founder</p>
-              </div>
+            <div className="pt-2 border-t border-[#E5E7EB] text-xs font-mono">
+              <p className="font-bold text-[#0A0A0A]">Liam Keller</p>
+              <p className="text-[11px] text-[#6B6B6B]">Dev Tools Founder</p>
             </div>
           </div>
 
-          <div className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-3">
-            <div className="flex items-center gap-1 text-amber-400">
+          <div className="card-bun space-y-3">
+            <div className="flex items-center gap-1 text-[#FF1F8F]">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-current" />
+                <Star key={i} className="w-3.5 h-3.5 fill-current" />
               ))}
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed italic">
-              "Ctickers made our conference swag look 10x more premium. The soft-touch matte finish is so silky and colors are super sharp."
+            <p className="font-mono text-xs text-[#0A0A0A] leading-relaxed">
+              "Fast 2-day turnaround, high contrast colors, and completely flat border-led ordering flow. Exactly what a modern sticker brand should feel like."
             </p>
-            <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
-              <img
-                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"
-                alt="Sarah P."
-                className="w-8 h-8 rounded-full object-cover"
-              />
-              <div>
-                <p className="text-xs font-bold text-slate-900">Sarah Patel</p>
-                <p className="text-[10px] text-slate-400">Dev Community Lead</p>
-              </div>
+            <div className="pt-2 border-t border-[#E5E7EB] text-xs font-mono">
+              <p className="font-bold text-[#0A0A0A]">Sarah Patel</p>
+              <p className="text-[11px] text-[#6B6B6B]">Community Lead</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* BOTTOM CTA CALLOUT */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12">
-        <div className="bg-slate-900 text-white rounded-3xl p-6 sm:p-10 md:p-14 text-center space-y-5 sm:space-y-6 relative overflow-hidden shadow-xl">
-          <div className="absolute -right-10 -bottom-10 w-60 h-60 bg-rose-500/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -left-10 -top-10 w-60 h-60 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
-
-          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight">
-            Ready to Make Your Custom Stickers?
-          </h2>
-          <p className="text-slate-300 text-xs sm:text-base max-w-xl mx-auto leading-relaxed">
-            Upload your photo, pick your quantity and shape, and we will handle the rest.
-          </p>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 pt-1 sm:pt-2">
-            <Link
-              to="/custom-sticker"
-              className="w-full sm:w-auto px-7 py-3.5 sm:py-4 bg-gradient-to-r from-rose-500 to-fuchsia-600 hover:from-rose-600 hover:to-fuchsia-700 text-white font-bold rounded-2xl shadow-lg transition-all hover:scale-[1.02] active:scale-95 text-center text-sm sm:text-base"
-            >
-              Start Custom Sticker
-            </Link>
-            <Link
-              to="/stickers"
-              className="w-full sm:w-auto px-7 py-3.5 sm:py-4 bg-white/10 hover:bg-white/20 text-white font-bold rounded-2xl border border-white/20 transition-all hover:scale-[1.02] active:scale-95 text-center text-sm sm:text-base"
-            >
-              Browse Catalog
-            </Link>
-          </div>
+      <section className="bg-[#0A0A0A] text-white p-8 sm:p-14 border border-[#262626] text-center space-y-5">
+        <h2 className="font-headline-lg text-2xl sm:text-5xl text-white">
+          Ready to make custom stickers?
+        </h2>
+        <p className="font-mono text-xs sm:text-sm text-[#9CA3AF] max-w-lg mx-auto">
+          Upload any design, select your quantity, and we will handle precision cutting and rapid delivery.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <Link
+            to="/custom-sticker"
+            className="btn-primary text-sm px-6 py-3"
+          >
+            <span>Start Custom Sticker</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            to="/stickers"
+            className="btn-outline text-sm px-6 py-3 bg-[#0A0A0A] text-white border-[#262626] hover:bg-[#1A1A1A] hover:border-white"
+          >
+            Browse Sticker Catalog
+          </Link>
         </div>
       </section>
     </div>

@@ -3,24 +3,21 @@ import {
   Upload,
   Image as ImageIcon,
   Check,
-  Sparkles,
   ShoppingBag,
-  RotateCcw,
-  Layers,
   ZoomIn,
   ShieldCheck,
   FileCheck
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
-// Preset sample photos for rapid testing if user doesn't have an image ready
+// Preset sample photos for rapid testing
 const SAMPLE_PRESETS = [
   {
     name: 'Neon Shزمت Fox',
     url: 'https://images.unsplash.com/photo-1516934024742-b461fba47600?auto=format&fit=crop&w=600&q=80',
   },
   {
-    name: 'Coffee Drip Coffee Co.',
+    name: 'Coffee Drip Co.',
     url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80',
   },
   {
@@ -41,16 +38,16 @@ const SIZES = [
 ];
 
 const SHAPES = [
-  { id: 'Die-cut', name: 'Die-Cut', desc: 'Contour laser cut around image edges', icon: '✂️' },
-  { id: 'Circle', name: 'Circle', desc: 'Classic clean circular vinyl badge', icon: '⭕' },
-  { id: 'Square', name: 'Square', desc: 'Rounded corners modern square', icon: '⏹️' },
-  { id: 'Kiss-cut', name: 'Kiss-Cut', desc: 'Peels off a larger square backing sheet', icon: '📄' },
+  { id: 'Die-cut', name: 'Die-Cut', desc: 'Contour laser cut around image edges' },
+  { id: 'Circle', name: 'Circle', desc: 'Classic clean circular vinyl badge' },
+  { id: 'Square', name: 'Square', desc: 'Sharp edges architectural square' },
+  { id: 'Kiss-cut', name: 'Kiss-Cut', desc: 'Peels off a larger backing sheet' },
 ];
 
 const FINISHES = [
   { id: 'Glossy', name: 'Glossy Finish', desc: 'High-shine reflective vibrant punch', extra: 0 },
-  { id: 'Matte', name: 'Soft Matte', desc: 'Silky smooth non-glare premium finish', extra: 0.2 },
-  { id: 'Holographic', name: 'Rainbow Holographic', desc: 'Shimmering iridescent rainbow foil', extra: 0.5 },
+  { id: 'Matte', name: 'Soft Matte', desc: 'Silky smooth non-glare finish', extra: 0.2 },
+  { id: 'Holographic', name: 'Rainbow Holographic', desc: 'Iridescent metallic rainbow foil', extra: 0.5 },
 ];
 
 const QUANTITIES = [
@@ -83,7 +80,6 @@ export default function CustomStickerPage() {
   );
   const totalPrice = Number((unitPrice * selectedQuantity.qty).toFixed(2));
 
-  // Handle local file selection
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -136,66 +132,63 @@ export default function CustomStickerPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
-      <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2.5 sm:space-y-3">
-        <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-rose-600 bg-rose-50 px-3 py-1 rounded-full">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Interactive Custom Studio</span>
+      <div className="space-y-3 pb-6 border-b border-[#E5E7EB]">
+        <div className="chip-bun-pink">
+          Interactive Custom Studio
         </div>
-        <h1 className="text-2xl xs:text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+        <h1 className="font-headline-lg text-3xl sm:text-5xl text-[#0A0A0A]">
           Create Custom Sticker
         </h1>
-        <p className="text-slate-600 text-xs sm:text-base">
-          Upload any photo, artwork, or logo. Preview live with real finishes, cuts, and transparent dummy pricing.
+        <p className="font-mono text-xs sm:text-sm text-[#6B6B6B] max-w-2xl">
+          Upload any photo, artwork, or logo. Test live finishes, cut shapes, and configure exact batch quantities with transparent pricing.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* LEFT COLUMN: Sticky Live Preview & File Upload */}
-        <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-5 sm:space-y-6">
+        <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-6">
           {/* Live Mockup Box */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-sm text-center relative overflow-hidden">
-            <div className="flex items-center justify-between text-xs text-slate-400 font-semibold mb-3 sm:mb-4">
+          <div className="card-bun space-y-4">
+            <div className="flex items-center justify-between text-xs font-mono text-[#6B6B6B]">
               <span className="flex items-center gap-1">
-                <ZoomIn className="w-3.5 h-3.5" /> Live Preview
+                <ZoomIn className="w-3.5 h-3.5 text-[#0A0A0A]" /> Live Proof
               </span>
-              <span className="bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full text-[11px] sm:text-xs">
+              <span className="chip-bun text-[11px] bg-[#F7F7F7]">
                 {selectedShape.name} • {selectedSize.label}
               </span>
             </div>
 
             {/* Sticker Preview Stage */}
-            <div className="relative aspect-square max-w-[280px] sm:max-w-none mx-auto w-full bg-grid-pattern bg-[#f8fafc] rounded-2xl p-6 sm:p-8 flex items-center justify-center overflow-hidden border border-slate-100">
-              
-              {/* Finish specific effects */}
+            <div className="relative aspect-square w-full bg-[#F7F7F7] border border-[#E5E7EB] p-6 flex items-center justify-center overflow-hidden">
+              {/* Holographic sheen overlay */}
               {selectedFinish.id === 'Holographic' && (
-                <div className="absolute inset-0 pointer-events-none holo-card opacity-35 mix-blend-color-dodge z-20" />
+                <div className="absolute inset-0 pointer-events-none bg-gradient-to-tr from-[#FF1F8F]/10 via-transparent to-white/30 mix-blend-overlay z-20" />
               )}
 
               {/* The Sticker Mask Container */}
               <div
-                className={`relative max-w-[85%] max-h-[85%] transition-all duration-300 flex items-center justify-center p-2 bg-white ${
+                className={`relative max-w-[85%] max-h-[85%] transition-all duration-200 flex items-center justify-center p-2 bg-white ${
                   selectedShape.id === 'Circle'
-                    ? 'rounded-full diecut-border aspect-square'
+                    ? 'rounded-full border-2 border-white shadow-sm aspect-square'
                     : selectedShape.id === 'Square'
-                    ? 'rounded-2xl diecut-border aspect-square'
+                    ? 'rounded-none border-2 border-white shadow-sm aspect-square'
                     : selectedShape.id === 'Kiss-cut'
-                    ? 'rounded-lg border-2 border-dashed border-rose-300 shadow-md p-3 sm:p-4 bg-slate-50'
-                    : 'rounded-2xl diecut-border'
+                    ? 'rounded-none border border-dashed border-[#0A0A0A] p-3 bg-white'
+                    : 'rounded-none border-2 border-white shadow-sm'
                 }`}
               >
                 <img
                   src={imagePreview}
                   alt="Custom Sticker Preview"
-                  className={`w-full h-full object-cover transition-all duration-300 ${
-                    selectedShape.id === 'Circle' ? 'rounded-full' : 'rounded-xl'
+                  className={`w-full h-full object-cover ${
+                    selectedShape.id === 'Circle' ? 'rounded-full' : 'rounded-none'
                   }`}
                 />
 
-                {/* Kiss-cut label */}
                 {selectedShape.id === 'Kiss-cut' && (
-                  <span className="absolute bottom-1 right-2 text-[8px] sm:text-[9px] font-bold text-rose-400 uppercase tracking-widest">
+                  <span className="absolute bottom-1 right-2 text-[8px] font-mono text-[#0A0A0A] uppercase tracking-widest bg-[#F7F7F7] px-1 border border-[#E5E7EB]">
                     Kiss-Cut Backing
                   </span>
                 )}
@@ -203,17 +196,17 @@ export default function CustomStickerPage() {
             </div>
 
             {/* Micro details bar */}
-            <div className="mt-3 sm:mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span className="truncate max-w-[150px] sm:max-w-none">{imageName}</span>
-              <span className="font-semibold text-rose-600 shrink-0">{selectedFinish.name}</span>
+            <div className="pt-2 border-t border-[#E5E7EB] flex items-center justify-between text-xs font-mono">
+              <span className="text-[#6B6B6B] truncate max-w-[160px]">{imageName}</span>
+              <span className="font-bold text-[#FF1F8F] shrink-0">{selectedFinish.name}</span>
             </div>
           </div>
 
           {/* Upload Component */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-sm space-y-3 sm:space-y-4">
-            <h3 className="font-bold text-sm text-slate-900 flex items-center gap-2">
-              <Upload className="w-4 h-4 text-rose-500" />
-              Upload Image From Your Device
+          <div className="card-bun space-y-4">
+            <h3 className="font-sans font-bold text-sm text-[#0A0A0A] flex items-center gap-2">
+              <Upload className="w-4 h-4 text-[#FF1F8F]" />
+              Upload Source Asset
             </h3>
 
             {/* Drag & Drop Zone */}
@@ -225,10 +218,10 @@ export default function CustomStickerPage() {
               onDragLeave={() => setDragOver(false)}
               onDrop={handleDrop}
               onClick={() => fileInputRef.current?.click()}
-              className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all ${
+              className={`border border-dashed p-6 text-center cursor-pointer transition-colors ${
                 dragOver
-                  ? 'border-rose-500 bg-rose-50/50 scale-[0.99]'
-                  : 'border-slate-200 hover:border-slate-400 bg-slate-50/50'
+                  ? 'border-[#0A0A0A] bg-[#F7F7F7]'
+                  : 'border-[#E5E7EB] hover:border-[#0A0A0A] bg-[#F7F7F7]'
               }`}
             >
               <input
@@ -238,20 +231,20 @@ export default function CustomStickerPage() {
                 onChange={handleFileChange}
                 className="hidden"
               />
-              <div className="w-12 h-12 rounded-2xl bg-white shadow-sm border border-slate-200 flex items-center justify-center mx-auto mb-3 text-slate-600">
-                <ImageIcon className="w-6 h-6" />
+              <div className="w-10 h-10 border border-[#E5E7EB] bg-white flex items-center justify-center mx-auto mb-2 text-[#0A0A0A]">
+                <ImageIcon className="w-5 h-5" />
               </div>
-              <p className="text-sm font-bold text-slate-800">
-                Click to browse or drag & drop photo
+              <p className="font-sans font-semibold text-xs sm:text-sm text-[#0A0A0A]">
+                Click or drag & drop image
               </p>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="font-mono text-[11px] text-[#6B6B6B] mt-0.5">
                 PNG, JPG, SVG, WebP up to 25MB
               </p>
             </div>
 
             {/* Preset Samples */}
-            <div>
-              <p className="text-xs font-semibold text-slate-500 mb-2">Or test with demo sample designs:</p>
+            <div className="space-y-2">
+              <p className="font-mono text-xs text-[#6B6B6B]">Or test with demo specimens:</p>
               <div className="grid grid-cols-4 gap-2">
                 {SAMPLE_PRESETS.map((sample) => (
                   <button
@@ -260,16 +253,16 @@ export default function CustomStickerPage() {
                       setImagePreview(sample.url);
                       setImageName(sample.name);
                     }}
-                    className={`p-1 rounded-xl border transition-all ${
+                    className={`p-1 border transition-all rounded-none ${
                       imagePreview === sample.url
-                        ? 'border-rose-500 ring-2 ring-rose-200'
-                        : 'border-slate-200 hover:border-slate-300'
+                        ? 'border-[#0A0A0A] bg-white ring-1 ring-[#0A0A0A]'
+                        : 'border-[#E5E7EB] hover:border-[#0A0A0A] bg-[#F7F7F7]'
                     }`}
                   >
                     <img
                       src={sample.url}
                       alt={sample.name}
-                      className="w-full h-12 object-cover rounded-lg"
+                      className="w-full h-11 object-cover"
                     />
                   </button>
                 ))}
@@ -279,114 +272,121 @@ export default function CustomStickerPage() {
         </div>
 
         {/* RIGHT COLUMN: Customization Options & Pricing */}
-        <div className="lg:col-span-7 space-y-6 sm:space-y-8">
+        <div className="lg:col-span-7 space-y-6">
           {/* STEP 1: SIZE */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-sm space-y-3 sm:space-y-4">
+          <div className="card-bun space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2">
-                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center shrink-0">1</span>
-                Select Sticker Size
+              <h3 className="font-sans font-bold text-sm text-[#0A0A0A] flex items-center gap-2">
+                <span className="w-5 h-5 bg-[#0A0A0A] text-white text-xs font-mono flex items-center justify-center">1</span>
+                Select Size
               </h3>
-              <span className="text-xs font-semibold text-rose-600">Selected: {selectedSize.label}</span>
+              <span className="font-mono text-xs text-[#FF1F8F] font-bold">Selected: {selectedSize.label}</span>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
               {SIZES.map((sz) => (
                 <button
                   key={sz.id}
                   onClick={() => setSelectedSize(sz)}
-                  className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border text-center transition-all relative touch-manipulation ${
+                  className={`p-3 rounded-none border text-center transition-colors relative cursor-pointer ${
                     selectedSize.id === sz.id
-                      ? 'border-rose-500 bg-rose-50/40 ring-2 ring-rose-400/20'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                      ? 'bg-[#0A0A0A] text-white border-[#0A0A0A]'
+                      : 'bg-white hover:bg-[#F7F7F7] text-[#0A0A0A] border-[#E5E7EB]'
                   }`}
                 >
                   {sz.popular && (
-                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-rose-500 text-white shrink-0 whitespace-nowrap">
-                      Best Size
+                    <span className="absolute -top-2 left-1/2 -translate-x-1/2 text-[9px] font-mono font-bold uppercase px-1.5 py-0.2 bg-[#FF1F8F] text-white">
+                      Popular
                     </span>
                   )}
-                  <p className="text-sm sm:text-base font-extrabold text-slate-900">{sz.label}</p>
-                  <p className="text-[10px] sm:text-[11px] text-slate-500 mt-0.5">Custom fit</p>
+                  <p className="font-mono font-bold text-sm sm:text-base">{sz.label}</p>
+                  <p className={`font-mono text-[10px] mt-0.5 ${selectedSize.id === sz.id ? 'text-[#9CA3AF]' : 'text-[#6B6B6B]'}`}>
+                    {sz.id === '3x3' ? 'Standard' : 'Custom'}
+                  </p>
                 </button>
               ))}
             </div>
           </div>
 
           {/* STEP 2: SHAPE */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-sm space-y-3 sm:space-y-4">
+          <div className="card-bun space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2">
-                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center shrink-0">2</span>
+              <h3 className="font-sans font-bold text-sm text-[#0A0A0A] flex items-center gap-2">
+                <span className="w-5 h-5 bg-[#0A0A0A] text-white text-xs font-mono flex items-center justify-center">2</span>
                 Select Cut Shape
               </h3>
-              <span className="text-xs font-semibold text-rose-600">Selected: {selectedShape.name}</span>
+              <span className="font-mono text-xs text-[#FF1F8F] font-bold">Selected: {selectedShape.name}</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
               {SHAPES.map((shape) => (
                 <button
                   key={shape.id}
                   onClick={() => setSelectedShape(shape)}
-                  className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border text-left flex items-start gap-3 transition-all touch-manipulation ${
+                  className={`p-3 rounded-none border text-left transition-colors cursor-pointer ${
                     selectedShape.id === shape.id
-                      ? 'border-rose-500 bg-rose-50/40 ring-2 ring-rose-400/20'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                      ? 'bg-[#0A0A0A] text-white border-[#0A0A0A]'
+                      : 'bg-white hover:bg-[#F7F7F7] text-[#0A0A0A] border-[#E5E7EB]'
                   }`}
                 >
-                  <span className="text-xl sm:text-2xl shrink-0 mt-0.5">{shape.icon}</span>
-                  <div>
-                    <p className="text-xs sm:text-sm font-bold text-slate-900">{shape.name}</p>
-                    <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5">{shape.desc}</p>
-                  </div>
+                  <p className="font-sans font-bold text-sm">{shape.name}</p>
+                  <p className={`font-mono text-[11px] mt-1 ${selectedShape.id === shape.id ? 'text-[#9CA3AF]' : 'text-[#6B6B6B]'}`}>
+                    {shape.desc}
+                  </p>
                 </button>
               ))}
             </div>
           </div>
 
           {/* STEP 3: FINISH & MATERIAL */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-sm space-y-3 sm:space-y-4">
+          <div className="card-bun space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2">
-                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center shrink-0">3</span>
+              <h3 className="font-sans font-bold text-sm text-[#0A0A0A] flex items-center gap-2">
+                <span className="w-5 h-5 bg-[#0A0A0A] text-white text-xs font-mono flex items-center justify-center">3</span>
                 Select Vinyl Finish
               </h3>
-              <span className="text-xs font-semibold text-rose-600">Selected: {selectedFinish.name}</span>
+              <span className="font-mono text-xs text-[#FF1F8F] font-bold">Selected: {selectedFinish.name}</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
               {FINISHES.map((fn) => (
                 <button
                   key={fn.id}
                   onClick={() => setSelectedFinish(fn)}
-                  className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl border text-left transition-all touch-manipulation ${
+                  className={`p-3 rounded-none border text-left transition-colors cursor-pointer ${
                     selectedFinish.id === fn.id
-                      ? 'border-rose-500 bg-rose-50/40 ring-2 ring-rose-400/20'
-                      : 'border-slate-200 hover:border-slate-300 bg-white'
+                      ? 'bg-[#0A0A0A] text-white border-[#0A0A0A]'
+                      : 'bg-white hover:bg-[#F7F7F7] text-[#0A0A0A] border-[#E5E7EB]'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-xs sm:text-sm font-bold text-slate-900">{fn.name}</p>
+                    <p className="font-sans font-bold text-xs sm:text-sm">{fn.name}</p>
                     {fn.extra > 0 && (
-                      <span className="text-[10px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">
+                      <span className={`text-[10px] font-mono px-1 py-0.2 border ${
+                        selectedFinish.id === fn.id
+                          ? 'border-[#FF1F8F] text-[#FF1F8F]'
+                          : 'border-[#E5E7EB] text-[#0A0A0A] bg-[#F7F7F7]'
+                      }`}>
                         +${fn.extra.toFixed(2)}
                       </span>
                     )}
                   </div>
-                  <p className="text-[11px] sm:text-xs text-slate-500 mt-1">{fn.desc}</p>
+                  <p className={`font-mono text-[11px] mt-1 ${selectedFinish.id === fn.id ? 'text-[#9CA3AF]' : 'text-[#6B6B6B]'}`}>
+                    {fn.desc}
+                  </p>
                 </button>
               ))}
             </div>
           </div>
 
           {/* STEP 4: QUANTITY & DUMMY PRICE SUMMARY */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border border-slate-200/90 shadow-sm space-y-3 sm:space-y-4">
+          <div className="card-bun space-y-3">
             <div className="flex items-center justify-between">
-              <h3 className="font-bold text-sm sm:text-base text-slate-900 flex items-center gap-2">
-                <span className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-slate-900 text-white text-xs flex items-center justify-center shrink-0">4</span>
-                Select Quantity
+              <h3 className="font-sans font-bold text-sm text-[#0A0A0A] flex items-center gap-2">
+                <span className="w-5 h-5 bg-[#0A0A0A] text-white text-xs font-mono flex items-center justify-center">4</span>
+                Select Batch Quantity
               </h3>
-              <span className="text-xs font-semibold text-rose-600">
+              <span className="font-mono text-xs text-[#FF1F8F] font-bold">
                 {selectedQuantity.qty} stickers
               </span>
             </div>
@@ -396,30 +396,30 @@ export default function CustomStickerPage() {
                 <button
                   key={q.qty}
                   onClick={() => setSelectedQuantity(q)}
-                  className={`w-full p-3 sm:p-3.5 rounded-xl sm:rounded-2xl border flex items-center justify-between transition-all touch-manipulation ${
+                  className={`w-full p-3 rounded-none border flex items-center justify-between transition-colors cursor-pointer ${
                     selectedQuantity.qty === q.qty
-                      ? 'border-slate-900 bg-slate-900 text-white'
-                      : 'border-slate-200 hover:border-slate-300 bg-white text-slate-800'
+                      ? 'bg-[#0A0A0A] text-white border-[#0A0A0A]'
+                      : 'bg-white hover:bg-[#F7F7F7] text-[#0A0A0A] border-[#E5E7EB]'
                   }`}
                 >
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-xs sm:text-sm">{q.qty} Stickers</span>
+                    <span className="font-mono font-bold text-xs sm:text-sm">{q.qty} Stickers</span>
                     {q.badge && (
-                      <span className={`text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                      <span className={`text-[9px] font-mono uppercase font-bold px-1.5 py-0.5 ${
                         selectedQuantity.qty === q.qty
-                          ? 'bg-rose-500 text-white'
-                          : 'bg-rose-100 text-rose-700'
+                          ? 'bg-[#FF1F8F] text-white'
+                          : 'bg-[#F7F7F7] text-[#0A0A0A] border border-[#E5E7EB]'
                       }`}>
                         {q.badge}
                       </span>
                     )}
                   </div>
 
-                  <div className="text-right">
+                  <div className="text-right font-mono">
                     <span className="font-bold text-xs sm:text-sm">
                       ${(baseRate * selectedSize.multiplier * q.unitDiscount * q.qty).toFixed(2)}
                     </span>
-                    <span className={`text-[10px] sm:text-xs ml-1.5 ${selectedQuantity.qty === q.qty ? 'text-slate-300' : 'text-slate-400'}`}>
+                    <span className={`text-[10px] sm:text-xs ml-1.5 ${selectedQuantity.qty === q.qty ? 'text-[#9CA3AF]' : 'text-[#6B6B6B]'}`}>
                       (${(baseRate * selectedSize.multiplier * q.unitDiscount).toFixed(2)}/ea)
                     </span>
                   </div>
@@ -429,39 +429,39 @@ export default function CustomStickerPage() {
           </div>
 
           {/* CHECKOUT SUMMARY CARD & ADD TO CART */}
-          <div className="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl sm:rounded-3xl p-5 sm:p-8 space-y-5 sm:space-y-6 shadow-xl">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pb-5 sm:pb-6 border-b border-slate-700">
+          <div className="bg-[#0A0A0A] text-white border border-[#262626] p-6 space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#262626]">
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Total Dummy Price</p>
+                <p className="font-mono text-xs text-[#9CA3AF] uppercase tracking-wider">Total Dummy Cost</p>
                 <div className="flex items-baseline gap-2 mt-1">
-                  <span className="text-3xl sm:text-4xl font-black">${totalPrice.toFixed(2)}</span>
-                  <span className="text-xs text-slate-400">
-                    (${unitPrice.toFixed(2)} ea)
+                  <span className="font-mono text-3xl sm:text-4xl font-bold">${totalPrice.toFixed(2)}</span>
+                  <span className="font-mono text-xs text-[#9CA3AF]">
+                    (${unitPrice.toFixed(2)} / ea)
                   </span>
                 </div>
               </div>
 
-              <div className="bg-white/10 rounded-xl sm:rounded-2xl px-3.5 py-2 text-xs space-y-0.5 backdrop-blur-sm border border-white/10 self-start sm:self-auto">
-                <p className="font-semibold text-white">✨ Free Shipping Included</p>
-                <p className="text-slate-300 text-[11px]">Fast 2-Day Production Dispatch</p>
+              <div className="bg-[#141414] border border-[#262626] px-3 py-2 text-xs font-mono space-y-0.5">
+                <p className="text-white font-bold">Free 2-Day Shipping</p>
+                <p className="text-[#9CA3AF] text-[11px]">Laser die-cut dispatch in 24h</p>
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-slate-300">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 font-mono text-xs text-[#9CA3AF]">
               <div>
-                <span className="text-slate-500 block text-[11px]">Shape:</span>
+                <span className="text-[#6B6B6B] block text-[10px]">Shape:</span>
                 <strong className="text-white truncate block">{selectedShape.name}</strong>
               </div>
               <div>
-                <span className="text-slate-500 block text-[11px]">Size:</span>
+                <span className="text-[#6B6B6B] block text-[10px]">Size:</span>
                 <strong className="text-white block">{selectedSize.label}</strong>
               </div>
               <div>
-                <span className="text-slate-500 block text-[11px]">Finish:</span>
+                <span className="text-[#6B6B6B] block text-[10px]">Finish:</span>
                 <strong className="text-white truncate block">{selectedFinish.name}</strong>
               </div>
               <div>
-                <span className="text-slate-500 block text-[11px]">Qty:</span>
+                <span className="text-[#6B6B6B] block text-[10px]">Qty:</span>
                 <strong className="text-white block">{selectedQuantity.qty} pcs</strong>
               </div>
             </div>
@@ -470,33 +470,33 @@ export default function CustomStickerPage() {
             <button
               onClick={handleAddToCart}
               disabled={isAdded}
-              className={`w-full py-3.5 sm:py-4 px-4 sm:px-6 rounded-xl sm:rounded-2xl font-black text-sm sm:text-base flex items-center justify-center gap-2 transition-all shadow-xl touch-manipulation ${
+              className={`w-full py-3.5 px-6 font-sans font-bold text-sm flex items-center justify-center gap-2 rounded-none transition-colors border cursor-pointer ${
                 isAdded
-                  ? 'bg-emerald-500 text-white scale-98'
-                  : 'bg-gradient-to-r from-rose-500 to-fuchsia-600 hover:from-rose-600 hover:to-fuchsia-700 text-white hover:scale-[1.01] active:scale-98'
+                  ? 'bg-[#0A0A0A] text-[#FF1F8F] border-[#FF1F8F]'
+                  : 'bg-[#FF1F8F] hover:bg-[#E0177D] text-white border-[#FF1F8F] hover:border-[#E0177D]'
               }`}
             >
               {isAdded ? (
                 <>
-                  <Check className="w-5 h-5 stroke-[3]" />
+                  <Check className="w-4 h-4 text-[#FF1F8F]" />
                   <span>Custom Sticker Added to Cart!</span>
                 </>
               ) : (
                 <>
-                  <ShoppingBag className="w-5 h-5" />
+                  <ShoppingBag className="w-4 h-4" />
                   <span>Add {selectedQuantity.qty} Stickers (${totalPrice.toFixed(2)})</span>
                 </>
               )}
             </button>
 
-            <div className="flex flex-col xs:flex-row items-center justify-center gap-2 sm:gap-6 text-[11px] text-slate-400 text-center">
-              <span className="flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                Proof approval before print
+            <div className="flex flex-col xs:flex-row items-center justify-center gap-4 text-[11px] font-mono text-[#9CA3AF] text-center pt-1 border-t border-[#262626]">
+              <span className="flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#FF1F8F]" />
+                Digital optical proof before print
               </span>
-              <span className="flex items-center gap-1">
-                <FileCheck className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
-                Waterproof vinyl guarantee
+              <span className="flex items-center gap-1.5">
+                <FileCheck className="w-3.5 h-3.5 text-white" />
+                100% waterproof vinyl guarantee
               </span>
             </div>
           </div>

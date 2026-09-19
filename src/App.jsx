@@ -17,15 +17,15 @@ import ContactPage from './pages/ContactPage';
 function NotFound() {
   return (
     <div className="max-w-xl mx-auto px-4 py-24 text-center space-y-4">
-      <div className="text-6xl font-black text-rose-500">404</div>
-      <h1 className="text-2xl font-black text-slate-900">Page Not Found</h1>
-      <p className="text-sm text-slate-500">
+      <div className="text-7xl font-display font-extrabold text-secondary">404</div>
+      <h1 className="text-2xl font-display font-bold text-primary">Page Not Found</h1>
+      <p className="text-sm font-mono text-tertiary">
         The sticker page you are looking for doesn't exist or has moved.
       </p>
       <div className="pt-2">
         <Link
           to="/"
-          className="inline-block bg-slate-900 text-white text-xs font-bold px-6 py-3 rounded-xl hover:bg-slate-800 transition-colors"
+          className="btn-secondary"
         >
           Return to Home
         </Link>
@@ -38,7 +38,7 @@ export default function App() {
   return (
     <CartProvider>
       <ScrollToTop />
-      <div className="min-h-screen flex flex-col bg-[#FAF9F6] text-slate-900 antialiased selection:bg-rose-500 selection:text-white">
+      <div className="min-h-screen flex flex-col bg-neutral text-primary antialiased selection:bg-secondary selection:text-white font-mono">
         <Navbar />
 
         <main className="flex-1">

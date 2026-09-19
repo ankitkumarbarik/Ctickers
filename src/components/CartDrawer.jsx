@@ -20,10 +20,9 @@ export default function CartDrawer() {
   if (!isCartOpen) return null;
 
   const handleCheckoutDemo = () => {
-    // Fire festive confetti
     confetti({
-      particleCount: 100,
-      spread: 70,
+      particleCount: 80,
+      spread: 60,
       origin: { y: 0.6 }
     });
 
@@ -40,132 +39,132 @@ export default function CartDrawer() {
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-[#0A0A0A]/50 transition-opacity"
         onClick={() => setIsCartOpen(false)}
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
-        <div className="w-screen max-w-full sm:max-w-md bg-white shadow-2xl flex flex-col">
+        <div className="w-screen max-w-full sm:max-w-md bg-white border-l border-[#E5E7EB] flex flex-col">
           {/* Header */}
-          <div className="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
+          <div className="p-4 border-b border-[#E5E7EB] flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <ShoppingBag className="w-5 h-5 text-rose-500" />
-              <h3 className="text-base sm:text-lg font-bold text-slate-900">Your Cart</h3>
-              <span className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full font-semibold">
+              <ShoppingBag className="w-4 h-4 text-[#FF1F8F]" />
+              <h3 className="font-sans font-bold text-base text-[#0A0A0A]">Shopping Cart</h3>
+              <span className="chip-bun text-[10px] py-0 px-1.5">
                 {cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}
               </span>
             </div>
             <button
               onClick={() => setIsCartOpen(false)}
-              className="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors touch-manipulation"
+              className="p-1 border border-[#E5E7EB] hover:border-[#0A0A0A] text-[#0A0A0A] cursor-pointer"
               aria-label="Close cart"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Body */}
           {isOrdered ? (
-            <div className="flex-1 p-6 flex flex-col items-center justify-center text-center space-y-4">
-              <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center animate-bounce">
-                <CheckCircle2 className="w-10 h-10" />
+            <div className="flex-1 p-6 flex flex-col items-center justify-center text-center space-y-4 font-mono">
+              <div className="w-12 h-12 bg-[#0A0A0A] text-[#FF1F8F] flex items-center justify-center">
+                <CheckCircle2 className="w-6 h-6" />
               </div>
-              <h4 className="text-2xl font-bold text-slate-900">Demo Order Placed!</h4>
-              <p className="text-sm text-slate-600 max-w-xs">
-                This is a demo checkout for Ctickers. In production, this would direct to a secure checkout gateway.
+              <h4 className="font-sans font-bold text-xl text-[#0A0A0A]">Demo Order Placed</h4>
+              <p className="text-xs text-[#6B6B6B] max-w-xs">
+                Simulated checkout complete. In production, this routes through payment gateway & print queue.
               </p>
-              <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl w-full text-left text-xs space-y-1">
-                <p className="font-semibold text-slate-700">Order Reference: #CTK-{(Math.random() * 90000 + 10000).toFixed(0)}</p>
-                <p className="text-slate-500">Status: Demo Simulated Ready for Print</p>
+              <div className="p-3 bg-[#F7F7F7] border border-[#E5E7EB] w-full text-left text-xs space-y-1">
+                <p className="font-bold text-[#0A0A0A]">Order Reference: #CTK-{(Math.random() * 90000 + 10000).toFixed(0)}</p>
+                <p className="text-[#6B6B6B]">Status: Ready for Laser Die-Cut Queue</p>
               </div>
               <button
                 onClick={handleResetAfterOrder}
-                className="w-full bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-slate-800 transition-colors"
+                className="w-full btn-secondary text-xs py-3"
               >
                 Back to Shopping
               </button>
             </div>
           ) : cartItems.length === 0 ? (
-            <div className="flex-1 p-6 flex flex-col items-center justify-center text-center space-y-4">
-              <div className="w-20 h-20 rounded-3xl bg-rose-50 flex items-center justify-center text-rose-400">
-                <ShoppingBag className="w-10 h-10 stroke-1" />
+            <div className="flex-1 p-6 flex flex-col items-center justify-center text-center space-y-4 font-mono">
+              <div className="w-14 h-14 bg-[#F7F7F7] border border-[#E5E7EB] flex items-center justify-center text-[#9CA3AF]">
+                <ShoppingBag className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-bold text-lg text-slate-900">Your cart is empty</h4>
-                <p className="text-sm text-slate-500 mt-1 max-w-xs">
-                  Discover our sticker catalog or upload your custom design to fill it up!
+                <h4 className="font-sans font-bold text-base text-[#0A0A0A]">Your cart is empty</h4>
+                <p className="text-xs text-[#6B6B6B] mt-1 max-w-xs">
+                  Browse the sticker catalog or create a custom die-cut design.
                 </p>
               </div>
               <div className="flex flex-col gap-2 w-full pt-2">
                 <Link
                   to="/stickers"
                   onClick={() => setIsCartOpen(false)}
-                  className="w-full bg-rose-500 hover:bg-rose-600 text-white font-semibold py-2.5 rounded-xl transition-colors text-center text-sm"
+                  className="btn-primary text-xs w-full py-2.5"
                 >
                   Explore Stickers
                 </Link>
                 <Link
                   to="/custom-sticker"
                   onClick={() => setIsCartOpen(false)}
-                  className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2.5 rounded-xl transition-colors text-center text-sm"
+                  className="btn-outline text-xs w-full py-2.5"
                 >
-                  Create Custom Sticker
+                  Custom Sticker Studio
                 </Link>
               </div>
             </div>
           ) : (
             <>
               {/* Item list */}
-              <div className="flex-1 overflow-y-auto p-5 space-y-4 divide-y divide-slate-100">
+              <div className="flex-1 overflow-y-auto p-4 space-y-4 divide-y divide-[#E5E7EB]">
                 {cartItems.map((item) => (
-                  <div key={item.key} className="pt-4 first:pt-0 flex gap-3.5 items-start">
+                  <div key={item.key} className="pt-3 first:pt-0 flex gap-3 items-start">
                     {/* Thumbnail */}
-                    <div className="w-16 h-16 rounded-xl bg-slate-100 overflow-hidden border border-slate-200 shrink-0 p-1 flex items-center justify-center">
+                    <div className="w-14 h-14 bg-[#F7F7F7] border border-[#E5E7EB] shrink-0 p-1 flex items-center justify-center">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-cover rounded-lg"
+                        className="w-full h-full object-contain"
                       />
                     </div>
 
                     {/* Details */}
-                    <div className="flex-1 min-w-0">
-                      <h5 className="font-bold text-sm text-slate-900 truncate">{item.name}</h5>
-                      <div className="flex flex-wrap items-center gap-1.5 text-[11px] text-slate-500 mt-1">
-                        <span className="bg-slate-100 px-1.5 py-0.5 rounded font-medium">{item.size}</span>
-                        <span className="bg-slate-100 px-1.5 py-0.5 rounded font-medium">{item.finish}</span>
-                        <span className="bg-slate-100 px-1.5 py-0.5 rounded font-medium">{item.shape}</span>
+                    <div className="flex-1 min-w-0 font-mono">
+                      <h5 className="font-sans font-bold text-xs sm:text-sm text-[#0A0A0A] truncate">{item.name}</h5>
+                      <div className="flex flex-wrap items-center gap-1 text-[10px] text-[#6B6B6B] mt-0.5">
+                        <span className="bg-[#F7F7F7] border border-[#E5E7EB] px-1">{item.size}</span>
+                        <span className="bg-[#F7F7F7] border border-[#E5E7EB] px-1">{item.finish}</span>
+                        <span className="bg-[#F7F7F7] border border-[#E5E7EB] px-1">{item.shape}</span>
                       </div>
 
-                      <div className="flex items-center justify-between mt-3">
-                        <div className="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-slate-50">
+                      <div className="flex items-center justify-between mt-2.5">
+                        <div className="flex items-center border border-[#E5E7EB]">
                           <button
                             onClick={() => updateQuantity(item.key, -1)}
-                            className="p-1 hover:bg-slate-200 text-slate-600 transition-colors"
+                            className="p-1 hover:bg-[#F7F7F7] text-[#0A0A0A]"
                             aria-label="Decrease quantity"
                           >
-                            <Minus className="w-3.5 h-3.5" />
+                            <Minus className="w-3 h-3" />
                           </button>
-                          <span className="px-2.5 text-xs font-bold text-slate-800">{item.quantity}</span>
+                          <span className="px-2 text-xs font-bold text-[#0A0A0A]">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.key, 1)}
-                            className="p-1 hover:bg-slate-200 text-slate-600 transition-colors"
+                            className="p-1 hover:bg-[#F7F7F7] text-[#0A0A0A]"
                             aria-label="Increase quantity"
                           >
-                            <Plus className="w-3.5 h-3.5" />
+                            <Plus className="w-3 h-3" />
                           </button>
                         </div>
 
-                        <div className="flex items-center gap-3">
-                          <span className="font-bold text-sm text-slate-900">
+                        <div className="flex items-center gap-2.5">
+                          <span className="font-bold text-xs sm:text-sm text-[#0A0A0A]">
                             ${(item.price * item.quantity).toFixed(2)}
                           </span>
                           <button
                             onClick={() => removeFromCart(item.key)}
-                            className="text-slate-400 hover:text-rose-600 p-1 transition-colors"
+                            className="text-[#9CA3AF] hover:text-[#FF1F8F] p-0.5"
                             aria-label="Remove item"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
@@ -175,25 +174,25 @@ export default function CartDrawer() {
               </div>
 
               {/* Footer Summary */}
-              <div className="p-5 border-t border-slate-200 bg-slate-50 space-y-3">
-                <div className="flex items-center justify-between text-xs text-slate-500">
+              <div className="p-4 border-t border-[#E5E7EB] bg-[#F7F7F7] space-y-3 font-mono">
+                <div className="flex items-center justify-between text-xs text-[#6B6B6B]">
                   <span>Shipping</span>
-                  <span className="text-emerald-600 font-semibold">FREE (Demo)</span>
+                  <span className="text-[#0A0A0A] font-bold">FREE (Demo)</span>
                 </div>
-                <div className="flex items-center justify-between text-base font-bold text-slate-900">
+                <div className="flex items-center justify-between text-sm font-bold text-[#0A0A0A]">
                   <span>Subtotal</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <button
                   onClick={handleCheckoutDemo}
-                  className="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-slate-900/10 transition-all hover:scale-[1.01]"
+                  className="w-full btn-primary text-xs py-3"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-300" />
-                  <span>Demo Checkout</span>
+                  <Sparkles className="w-4 h-4" />
+                  <span>Demo Checkout (${subtotal.toFixed(2)})</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
-                <p className="text-[11px] text-center text-slate-400">
-                  Frontend demonstration only • No real payment charged
+                <p className="text-[10px] text-center text-[#9CA3AF]">
+                  Demonstration checkout • No payment charged
                 </p>
               </div>
             </>

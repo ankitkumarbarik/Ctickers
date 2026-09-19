@@ -9,63 +9,295 @@
     max-width: 100vw;
   }
   body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    color: #1e293b;
-    background-color: #faf9f6;
+    font-family: 'Martian Mono', monospace;
+    color: #0A0A0A;
+    background-color: #FFFFFF;
     -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Form elements default to mono */
+  input, textarea, select {
+    font-family: 'Martian Mono', monospace;
   }
 }
 
-/* Custom playful sticker styling */
-.sticker-outline {
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))
-         drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
+/* Typography styles according to DESIGN.md */
+.font-headline-display {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  letter-spacing: -1.36px;
+  line-height: 1.15;
 }
 
-.sticker-glow {
-  filter: drop-shadow(0 0 16px rgba(217, 70, 239, 0.35));
+.font-headline-lg {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.168px;
+  line-height: 1.2;
 }
 
-/* Die-cut white border effect for stickers */
-.diecut-border {
-  border: 4px solid #ffffff;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.06);
+.font-headline-md {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.3072px;
+  line-height: 1.25;
 }
 
-/* Holographic shimmer effect */
-@keyframes holo-shimmer {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.font-headline-sm {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0px;
+  line-height: 28px;
 }
 
-.holo-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(254, 215, 226, 0.4) 25%, rgba(224, 231, 255, 0.5) 50%, rgba(254, 240, 138, 0.4) 75%, rgba(255, 255, 255, 0.9) 100%);
-  background-size: 200% 200%;
-  animation: holo-shimmer 8s ease infinite;
+.font-body-lg {
+  font-family: 'Martian Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.32px;
 }
 
-/* Subtle dot grid pattern */
-.bg-grid-pattern {
-  background-image: radial-gradient(rgba(148, 163, 184, 0.25) 1px, transparent 1px);
-  background-size: 24px 24px;
+.font-body-md {
+  font-family: 'Martian Mono', monospace;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.44px;
 }
 
-/* Smooth badge bounce */
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1deg); }
+.font-body-sm {
+  font-family: 'Martian Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.2px;
 }
 
-.animate-float {
-  animation: float 4s ease-in-out infinite;
+.font-label-lg {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0px;
 }
 
-.animate-float-delayed {
-  animation: float 5s ease-in-out infinite 2s;
+.font-label-md {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: 0px;
 }
 
-/* Masonry layout column breaks */
+.font-label-sm {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+}
+
+/* Component tokens according to DESIGN.md */
+.btn-primary {
+  background-color: #FF1F8F;
+  color: #FFFFFF;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: 0px;
+  padding: 8px 14px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #FF1F8F;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+.btn-primary:hover {
+  background-color: #E0177D;
+  border-color: #E0177D;
+}
+
+.btn-secondary {
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: 0px;
+  padding: 8px 14px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #0A0A0A;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+.btn-secondary:hover {
+  background-color: #262626;
+  border-color: #262626;
+}
+
+.btn-outline {
+  background-color: #FFFFFF;
+  color: #0A0A0A;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: 0px;
+  padding: 8px 14px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #E5E7EB;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+.btn-outline:hover {
+  background-color: #F7F7F7;
+  border-color: #0A0A0A;
+}
+
+.btn-tertiary {
+  background-color: transparent;
+  color: #0A0A0A;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: 0px;
+  padding: 0px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 150ms ease;
+  cursor: pointer;
+}
+.btn-tertiary:hover {
+  color: #FF1F8F;
+}
+
+/* Card: 1px border, rounded.md (8px), padding 16px */
+.card-bun {
+  background-color: #FFFFFF;
+  color: #0A0A0A;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  padding: 16px;
+  transition: border-color 150ms ease;
+}
+.card-bun:hover {
+  border-color: #0A0A0A;
+}
+
+/* Input: rectangular, border-led, rounded.none, compact padding 11px 14px */
+.input-bun {
+  background-color: #FFFFFF;
+  color: #0A0A0A;
+  font-family: 'Martian Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  letter-spacing: 0.2px;
+  border-radius: 0px;
+  padding: 8px 14px;
+  border: 1px solid #E5E7EB;
+  outline: none;
+  transition: border-color 150ms ease;
+}
+.input-bun:focus {
+  border-color: #0A0A0A;
+}
+
+/* Tab: square edges, active invert strongly to black bg with white text */
+.tab-bun {
+  background-color: #FFFFFF;
+  color: #0A0A0A;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 20px;
+  border-radius: 0px;
+  padding: 8px 14px;
+  border: 1px solid #E5E7EB;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+.tab-bun:hover {
+  background-color: #F7F7F7;
+}
+.tab-bun.active, .tab-bun-active {
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  border-color: #0A0A0A;
+}
+
+/* Chip: surface bg, square corner, label-sm typography */
+.chip-bun {
+  background-color: #F7F7F7;
+  color: #0A0A0A;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: 0.04em;
+  border-radius: 0px;
+  padding: 4px 8px;
+  border: 1px solid #E5E7EB;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.chip-bun-pink {
+  background-color: #FF1F8F;
+  color: #FFFFFF;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 14px;
+  letter-spacing: 0.04em;
+  border-radius: 0px;
+  padding: 3px 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Code Block: black bg, white text, mono font, square corners */
+.code-block-bun {
+  background-color: #0A0A0A;
+  color: #FFFFFF;
+  font-family: 'Martian Mono', monospace;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0.44px;
+  border-radius: 0px;
+  padding: 14px 16px;
+  border: 1px solid #262626;
+  overflow-x: auto;
+}
+
+/* Clean border-led sticker presentation */
+.sticker-frame {
+  border: 1px solid #E5E7EB;
+  background-color: #F7F7F7;
+}
+
+/* Masonry column breaks */
 .masonry-col {
   break-inside: avoid;
   margin-bottom: 1.5rem;
